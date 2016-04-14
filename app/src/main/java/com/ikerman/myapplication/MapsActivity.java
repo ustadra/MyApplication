@@ -82,7 +82,7 @@ public class MapsActivity extends FragmentActivity  implements OnMapReadyCallbac
             }
 
             public void onStatusChanged(String provider, int status, Bundle extras) {
-                Log.d("Map", "Estamos aquí...");
+
             }
 
             public void onProviderEnabled(String provider) {
