@@ -1,4 +1,4 @@
-package com.ikerman.myapplication;
+package com.example.ustad.mapafinal;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
