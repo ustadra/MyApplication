@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -31,7 +32,7 @@ public class Main2Activity extends AppCompatActivity {
         // conectionDB conector de la base de datos
         db=new GestorBD(this);
         //metodo de conector de la base de datos donde muestra todos los registros
-        Cursor c=db.getData2(33);
+        Cursor c=db.getData();
         item=new ArrayList<String>();
         String tittle= "",content="";
         if(c.moveToFirst()){
@@ -46,5 +47,17 @@ public class Main2Activity extends AppCompatActivity {
                 new ArrayAdapter<String>(this,
                         android.R.layout.simple_list_item_1,item);
         lista.setAdapter(adaptador);
+        lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+        });
+        lista.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                return false;
+            }
+        });
     }
 }

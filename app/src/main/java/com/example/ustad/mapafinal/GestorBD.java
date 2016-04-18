@@ -35,7 +35,7 @@ public class GestorBD extends SQLiteOpenHelper {
 
     public GestorBD(Context context)
     {
-        super(context, DATABASE_NAME , null, 1);
+        super(context, DATABASE_NAME, null, 1);
     }
 
     @Override
@@ -95,7 +95,9 @@ public class GestorBD extends SQLiteOpenHelper {
     public int obtenerId(){
         SQLiteDatabase db = this.getReadableDatabase();
         int numRows = (int) DatabaseUtils.queryNumEntries(db, RUTAS_TABLE_NAME);
-        return numRows+1;
+
+            return numRows + 1;
+
     }
 
     public boolean finRuta (Integer id)

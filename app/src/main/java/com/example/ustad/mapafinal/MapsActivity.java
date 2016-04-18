@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
@@ -11,6 +12,7 @@ import android.location.LocationManager;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.widget.ArrayAdapter;
 
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -22,8 +24,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
     private double d1=0;
@@ -33,8 +37,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private MainActivity mactivity;
     private GestorBD bd;
-
-
+    List<String> item = null;
+    private int numeroid;
+    private int startbutton;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -56,8 +61,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         bd=new GestorBD(this);
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
-        final int numeroid = extras.getInt("numeroid");
-        final int startbutton = extras.getInt("startbutton");
+         numeroid = extras.getInt("numeroid");
+        startbutton = extras.getInt("startbutton");
         if(startbutton==0) {
 
             // Acquire a reference to the system Location Manager
@@ -130,8 +135,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 //locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
             }
 
-        }else if(startbutton==1){
-
         }
 
 
@@ -151,7 +154,48 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
 
         mMap = googleMap;
+        if(startbutton==1){
+            Cursor c=bd.getData2(numeroid);
 
+            double lon=0,lat=0,lat1=0,lon1=0;
+            if(c.moveToFirst()){
+                //recorremos la BD donde tittle es un campo de ella y los numeros de dentro de getString() son la columna de la BD que le inseramos a la String
+                do {
+                    if(lat==0) {
+                        lat = c.getDouble(2);
+                        lon = c.getDouble(3);
+                    }else{
+                        lat1 = c.getDouble(2);
+                        lon1 = c.getDouble(3);
+
+                    }
+
+                    if(c.isFirst()) {
+
+                        mMap.addMarker(new MarkerOptions()
+                                        .position(new LatLng(lat, lon))
+                                        .title("Start")
+                        );
+                    }
+
+                    if(lat1!=0) {
+                        Polyline line = mMap.addPolyline(new PolylineOptions()
+                                .add(new LatLng(lat, lon), new LatLng(lat1,lon1))
+                                .width(5)
+                                .color(Color.RED));
+                        lat=0;
+                        lon=0;
+                    }
+                }while(c.moveToNext());
+
+                    mMap.addMarker(new MarkerOptions()
+                            .position(new LatLng(lat1, lon1))
+                            .title("End"));
+
+
+
+            }
+        }
 
 
         // Add a marker in Sydney and move the camera

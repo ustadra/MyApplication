@@ -12,6 +12,8 @@ public class MainActivity extends AppCompatActivity {
  private GestorBD bd;
     private int idruta;
     private int startbutton;
+    private int NUMERO1;
+    private  Intent intent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,15 +21,16 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setBd(new GestorBD(this));
+        intent=new Intent(MainActivity.this, MapsActivity.class);;
+
         findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                 int NUMERO1 = bd.creaRuta();
+                 NUMERO1 = bd.creaRuta();
                 setStartbutton(0);
-                Intent intent=new Intent(MainActivity.this, MapsActivity.class);;
 
                     intent.putExtra("numeroid", NUMERO1);
-                    intent.putExtra("startbuttont", startbutton);
+                    intent.putExtra("startbutton", startbutton);
                 startActivity(intent);
             }
         });
@@ -35,8 +38,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 bd.finRuta(idruta);
-                setStartbutton(1);
-                startActivity(new Intent(MainActivity.this, MapsActivity.class));
+                startbutton=1;
+
+                intent.putExtra("numeroid", NUMERO1);
+                intent.putExtra("startbutton", startbutton);
+                startActivity(intent);
             }
         });
 
