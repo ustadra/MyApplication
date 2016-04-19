@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setBd(new GestorBD(this));
-        intent=new Intent(MainActivity.this, MapsActivity.class);;
+        intent=new Intent(MainActivity.this, MapsActivity.class);
 
         findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
             @Override

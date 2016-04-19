@@ -158,6 +158,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Cursor c=bd.getData2(numeroid);
 
             double lon=0,lat=0,lat1=0,lon1=0;
+            boolean aux=false;
             if(c.moveToFirst()){
                 //recorremos la BD donde tittle es un campo de ella y los numeros de dentro de getString() son la columna de la BD que le inseramos a la String
                 do {
@@ -167,6 +168,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     }else{
                         lat1 = c.getDouble(2);
                         lon1 = c.getDouble(3);
+                        aux=true;
 
                     }
 
@@ -187,11 +189,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         lon=0;
                     }
                 }while(c.moveToNext());
-
-                    mMap.addMarker(new MarkerOptions()
-                            .position(new LatLng(lat1, lon1))
-                            .title("End"));
-
+                    if(aux==true) {
+                        mMap.addMarker(new MarkerOptions()
+                                .position(new LatLng(lat1, lon1))
+                                .title("End"));
+                    }
 
 
             }
